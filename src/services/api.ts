@@ -1,11 +1,8 @@
 
 import { toast } from "sonner";
 
-// Constants
-const LOCAL_URL = "http://localhost:8000"; // Change this to match your backend URL
-const API_URL = LOCAL_URL;
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-// Types
 export interface RegisterData {
   name: string;
   industry: string;
@@ -160,7 +157,7 @@ const api = {
       },
       body: JSON.stringify(data),
     });
-    
+    console.log("response firstly", response)
     const responseData = await handleResponse(response);
     
     if (responseData.success && responseData.access) {
