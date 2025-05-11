@@ -264,7 +264,7 @@ If you have any questions, feel free to reach out to our support team."
                           />
                         </FormControl>
                         <FormDescription>
-                          You can use variables like {{'{{'}}name{{'}}'}} to personalize your message
+                          You can use variables like {"{{name}}"} to personalize your message
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
