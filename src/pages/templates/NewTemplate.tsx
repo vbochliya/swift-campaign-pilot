@@ -83,14 +83,15 @@ const NewTemplate: React.FC = () => {
   };
 
   const uploadImage = async () => {
-    if (!imageFile) return;
+    if (!imageFile) return null;
     
     try {
       setUploading(true);
       const response = await api.uploadAsset(imageFile);
-      setUploadedImageUrl(response.uploaded_at);
+      const imageUrl = response.uploaded_at;
+      setUploadedImageUrl(imageUrl);
       toast.success("Image uploaded successfully");
-      return response.uploaded_at;
+      return imageUrl;
     } catch (error) {
       console.error("Error uploading image:", error);
       toast.error("Failed to upload image");
@@ -263,7 +264,7 @@ If you have any questions, feel free to reach out to our support team."
                           />
                         </FormControl>
                         <FormDescription>
-                          You can use variables like {{name}} to personalize your message
+                          You can use variables like {{'{{'}}name{{'}}'}} to personalize your message
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -377,7 +378,7 @@ If you have any questions, feel free to reach out to our support team."
                           </Button>
                         )}
                         {uploadedImageUrl && (
-                          <div className="mt-2 flex items-center text-sm text-success-600">
+                          <div className="mt-2 flex items-center text-sm text-green-600">
                             <Check className="mr-1 h-4 w-4" />
                             Image uploaded successfully
                           </div>
@@ -420,7 +421,6 @@ If you have any questions, feel free to reach out to our support team."
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
-                        <FormMessage />
                       </FormItem>
                     )}
                   />

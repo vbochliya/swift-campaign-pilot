@@ -1,7 +1,7 @@
 
 import { toast } from "sonner";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
 
 export interface RegisterData {
   name: string;
@@ -150,6 +150,7 @@ const api = {
   },
 
   login: async (data: LoginData): Promise<AuthResponse> => {
+    console.log("Logging in with", data, "to", `${API_URL}/api/accounts/login/`);
     const response = await fetch(`${API_URL}/api/accounts/login/`, {
       method: "POST",
       headers: {
@@ -157,13 +158,15 @@ const api = {
       },
       body: JSON.stringify(data),
     });
-    console.log("response firstly", response)
+    console.log("Login response:", response);
     const responseData = await handleResponse(response);
     
     if (responseData.success && responseData.access) {
       setAuthToken(responseData.access);
       setRefreshToken(responseData.refresh || '');
-      setUserData(responseData.user as User);
+      if (responseData.user) {
+        setUserData(responseData.user as User);
+      }
     }
     
     return responseData;
@@ -176,6 +179,10 @@ const api = {
 
   // Templates
   createTemplate: async (data: any): Promise<MessageTemplate> => {
+    console.log("Creating template with data:", data);
+    console.log("API URL:", `${API_URL}/campaigns/create-message-template/`);
+    console.log("Auth token:", getAuthToken());
+
     const response = await fetch(`${API_URL}/campaigns/create-message-template/`, {
       method: "POST",
       headers: {
@@ -190,6 +197,12 @@ const api = {
 
   // Campaigns
   createCampaign: async (formData: FormData): Promise<Campaign> => {
+    console.log("Creating campaign with FormData containing:");
+    for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+    console.log("API URL:", `${API_URL}/campaigns/create-campaign/`);
+    
     const response = await fetch(`${API_URL}/campaigns/create-campaign/`, {
       method: "POST",
       headers: {
@@ -238,6 +251,9 @@ const api = {
   },
 
   uploadAsset: async (file: File): Promise<AssetUploadResponse> => {
+    console.log("Uploading asset:", file.name);
+    console.log("API URL:", `${API_URL}/messaging/create-static-asset/`);
+    
     const formData = new FormData();
     formData.append("image", file);
 

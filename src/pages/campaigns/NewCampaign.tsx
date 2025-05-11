@@ -54,15 +54,14 @@ const NewCampaign: React.FC = () => {
     },
   });
 
-  // Mock fetching templates - in a real app, you would fetch from the API
+  // Fetch templates from the API
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
         setLoadingTemplates(true);
-        // This would be a real API call to get templates
-        // In a real implementation, you would have an API endpoint for this
-        // For now, we'll just simulate a delay
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        // In a real implementation, we would call an API endpoint to get templates
+        // For this demo, we're using mock data
+        await new Promise(resolve => setTimeout(resolve, 500)); // Simulating API call delay
         
         // Mocked templates
         setTemplates([
@@ -120,17 +119,27 @@ const NewCampaign: React.FC = () => {
 
       if (!data.contactsFile) {
         toast.error("Please upload a contacts CSV file");
+        setSubmitting(false);
         return;
       }
 
+      console.log("Creating campaign with data:", {
+        name: data.name,
+        description: data.description,
+        channel: data.channel,
+        message_templates: data.messageTemplateId,
+        contactsFile: data.contactsFile,
+      });
+      
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("description", data.description);
       formData.append("channel", data.channel);
       formData.append("message_templates", data.messageTemplateId);
-      formData.append("contactsCSV", data.contactsFile);
+      formData.append("contactsCSV", data.contactsFile); // Make sure this field name matches what the backend expects
 
       const response = await api.createCampaign(formData);
+      console.log("Campaign created successfully:", response);
       toast.success("Campaign created successfully");
       navigate(`/campaigns/${response.id}`);
     } catch (error) {
@@ -290,7 +299,7 @@ const NewCampaign: React.FC = () => {
                       </div>
                     </FormControl>
                     {value && (
-                      <p className="text-sm font-medium text-brand-600">
+                      <p className="text-sm font-medium text-green-600">
                         Selected: {(value as File).name}
                       </p>
                     )}
