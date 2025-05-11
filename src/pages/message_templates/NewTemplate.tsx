@@ -389,23 +389,6 @@ If you have any questions, feel free to reach out to our support team."
 
                   <FormField
                     control={form.control}
-                    name="heroImageAlt"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Image Alt Text (Optional)</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Welcome celebration image" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          Descriptive text for the image for accessibility
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
                     name="isHtml"
                     render={({ field }) => (
                       <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">

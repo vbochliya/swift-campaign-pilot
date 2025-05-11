@@ -20,8 +20,9 @@ import Dashboard from "./pages/Dashboard";
 import CampaignList from "./pages/campaigns/CampaignList";
 import NewCampaign from "./pages/campaigns/NewCampaign";
 import CampaignDetail from "./pages/campaigns/CampaignDetail";
-import TemplateList from "./pages/templates/TemplateList";
-import NewTemplate from "./pages/templates/NewTemplate";
+import TemplateList from "./pages/message_templates/TemplateList";
+import NewTemplate from "./pages/message_templates/NewTemplate";
+import TemplateDetail from "./pages/message_templates/Template";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
               <Route path="/campaigns/new" element={<NewCampaign />} />
               <Route path="/campaigns/:id" element={<CampaignDetail />} />
               <Route path="/templates" element={<TemplateList />} />
+              <Route path="/templates/:id" element={<TemplateDetail />} />
               <Route path="/templates/new" element={<NewTemplate />} />
               <Route path="/analytics" element={<Dashboard />} />
               <Route path="/settings" element={<Dashboard />} />

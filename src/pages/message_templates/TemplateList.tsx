@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2, Plus, FileText, Search } from "lucide-react";
 import { toast } from "sonner";
-import { MessageTemplate } from "../../services/api";
+import api, { MessageTemplate } from "../../services/api";
 
 const TemplateList: React.FC = () => {
   const [templates, setTemplates] = useState<MessageTemplate[]>([]);
@@ -17,50 +17,12 @@ const TemplateList: React.FC = () => {
     const fetchTemplates = async () => {
       try {
         setLoading(true);
-        // This would be a real API call to get templates
-        // In a real implementation, you would have an API endpoint for this
-        // For now, we'll just simulate a delay and mock data
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        
-        // Mocked templates
-        setTemplates([
-          {
-            id: 4,
-            name: "Welcome Email Template",
-            organization: 2,
-            channel: "EMAIL",
-            subject: "Welcome to Our Platform!",
-            content: {
-              title: "Welcome to Your New Journey",
-              body: "Hello {{name}},\n\nWe're excited to have you join our community!",
-              action_url: "https://example.com/get-started",
-              hero_image_alt: "Welcome celebration image",
-              button_text: "Get Started",
-            },
-            is_html: true,
-            created_at: "2025-05-11T19:00:58.864325Z",
-            updated_at: "2025-05-11T19:00:58.864343Z",
-            static_asset_url: "https://example.com/image.png",
-          },
-          {
-            id: 5,
-            name: "Newsletter Template",
-            organization: 2,
-            channel: "EMAIL",
-            subject: "Your Monthly Newsletter",
-            content: {
-              title: "Monthly Newsletter",
-              body: "Hello {{name}},\n\nHere's your monthly newsletter!",
-              action_url: "https://example.com/newsletter",
-              hero_image_alt: "Newsletter image",
-              button_text: "Read More",
-            },
-            is_html: true,
-            created_at: "2025-05-11T19:00:58.864325Z",
-            updated_at: "2025-05-11T19:00:58.864343Z",
-            static_asset_url: "https://example.com/image.png",
-          },
-        ]);
+        const templates = await api.getMessages();
+        if (templates) {
+          setTemplates(templates);
+        } else {
+          toast.error("Failed to load templates");
+        }
       } catch (error) {
         console.error("Error fetching templates:", error);
         toast.error("Failed to load templates");

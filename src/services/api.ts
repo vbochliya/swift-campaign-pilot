@@ -178,6 +178,50 @@ const api = {
   },
 
   // Templates
+  getMessages:async (): Promise<MessageTemplate[]> => {
+    const response = await fetch(`${API_URL}/messaging/get-messages/`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    return handleResponse(response);
+  },
+
+  getMessageTemplate: async (id: string): Promise<MessageTemplate> => {
+    const response = await fetch(`${API_URL}/messaging/single-message/${id}/`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    console.log(response)
+    return handleResponse(response);
+  },
+  updateMessageTemplate: async (id: string, data: any): Promise<MessageTemplate> => {
+    const response = await fetch(`${API_URL}/messaging/single-message/${id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+      body: JSON.stringify(data),
+    });
+    
+    return handleResponse(response);
+  },
+  
+  deleteMessageTemplate: async (id: string): Promise<any> => {
+    const response = await fetch(`${API_URL}/messaging/single-message/${id}/`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    
+    return handleResponse(response);
+  },
+
   createTemplate: async (data: any): Promise<MessageTemplate> => {
     console.log("Creating template with data:", data);
     console.log("API URL:", `${API_URL}/campaigns/create-message-template/`);

@@ -61,7 +61,7 @@ const NewCampaign: React.FC = () => {
         setLoadingTemplates(true);
         // In a real implementation, we would call an API endpoint to get templates
         // For this demo, we're using mock data
-        await new Promise(resolve => setTimeout(resolve, 500)); // Simulating API call delay
+        const templates= await api.getMessages() 
         
         // Mocked templates
         setTemplates([
